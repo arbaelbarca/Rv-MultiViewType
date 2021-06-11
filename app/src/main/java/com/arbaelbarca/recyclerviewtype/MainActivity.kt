@@ -1,31 +1,31 @@
 package com.arbaelbarca.recyclerviewtype
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.arbaelbarca.recyclerviewtype.Adapter.AdapterViewPager
+import android.view.LayoutInflater
+import com.arbaelbarca.recyclerviewtype.adapter.AdapterViewPagerMain
+import com.arbaelbarca.recyclerviewtype.baseapp.BaseActivityBinding
+import com.arbaelbarca.recyclerviewtype.databinding.ActivityMainBinding
+import com.arbaelbarca.recyclerviewtype.utils.Constants
+import com.arbaelbarca.recyclerviewtype.utils.setToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-    private val titles =
-        arrayOf("Imbal hasil", "Dana Kelolaan")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        initial()
-    }
-
-    private fun initial() {
-        val adapterViewPagerPaket = AdapterViewPager(titles, this)
-        viewPager2Fragment.adapter = adapterViewPagerPaket
-        TabLayoutMediator(tabFragment, viewPager2Fragment,
+class MainActivity : BaseActivityBinding<ActivityMainBinding>() {
+    private fun initial(binding: ActivityMainBinding) {
+        binding.toolbar.setToolbar("Perbandingan", this, this)
+        val adapterViewPagerPaket = AdapterViewPagerMain(Constants.titlesTabMain, this)
+        binding.viewPager2Fragment.adapter = adapterViewPagerPaket
+        TabLayoutMediator(binding.tabFragment, binding.viewPager2Fragment,
             TabLayoutMediator.TabConfigurationStrategy { tab: TabLayout.Tab, position: Int ->
-                tab.text = titles[position]
+                tab.text = Constants.titlesTabMain[position]
             }
         ).attach()
+    }
+
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
+        get() = ActivityMainBinding::inflate
+
+    override fun setupView(binding: ActivityMainBinding) {
+        initial(binding)
     }
 
 }

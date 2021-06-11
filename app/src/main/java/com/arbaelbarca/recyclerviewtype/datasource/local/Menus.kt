@@ -1,6 +1,6 @@
 package com.arbaelbarca.recyclerviewtype.datasource.local
 
-import com.arbaelbarca.recyclerviewtype.Adapter.AdapterListCustom
+import com.arbaelbarca.recyclerviewtype.adapter.AdapterListCustom
 import com.arbaelbarca.recyclerviewtype.R
 
 class Menus {

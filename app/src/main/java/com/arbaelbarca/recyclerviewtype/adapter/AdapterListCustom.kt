@@ -1,4 +1,4 @@
-package com.arbaelbarca.recyclerviewtype.Adapter
+package com.arbaelbarca.recyclerviewtype.adapter
 
 import android.view.LayoutInflater
 import android.view.View

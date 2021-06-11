@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="text_color_grey">#999999</color>
+    <color name="text_color_grey_tua">#737272</color>
     <color name="text_color_green">#509E78</color>
     <color name="text_color_green_tua">#82C341</color>
     <color name="text_color_green_muda">#E2EBDD</color>

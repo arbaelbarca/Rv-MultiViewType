@@ -1,20 +1,21 @@
 package com.arbaelbarca.recyclerviewtype.presentation.ui.fragment
 
 import android.graphics.Color
-import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arbaelbarca.recyclerviewtype.Adapter.AdapterListCustom
 import com.arbaelbarca.recyclerviewtype.R
+import com.arbaelbarca.recyclerviewtype.adapter.AdapterListCustom
+import com.arbaelbarca.recyclerviewtype.adapter.AdapterViewPagerImbal
+import com.arbaelbarca.recyclerviewtype.adapter.AdapterViewPagerMain
+import com.arbaelbarca.recyclerviewtype.baseapp.BaseFragmentBinding
+import com.arbaelbarca.recyclerviewtype.databinding.FragmentImbalHasilBinding
 import com.arbaelbarca.recyclerviewtype.datasource.local.DataList
-import com.arbaelbarca.recyclerviewtype.datasource.local.DataMenu
-import com.arbaelbarca.recyclerviewtype.datasource.local.DataMenuTop
 import com.arbaelbarca.recyclerviewtype.datasource.local.Menus
+import com.arbaelbarca.recyclerviewtype.utils.Constants
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -22,7 +23,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_imbal_hasil.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ImbalHasilFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ImbalHasilFragment : Fragment() {
+class ImbalHasilFragment : BaseFragmentBinding<FragmentImbalHasilBinding>() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -50,12 +52,11 @@ class ImbalHasilFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_imbal_hasil, container, false)
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentImbalHasilBinding
+        get() = FragmentImbalHasilBinding::inflate
+
+    override fun setupView(binding: FragmentImbalHasilBinding) {
+        initial(binding)
     }
 
     companion object {
@@ -78,12 +79,8 @@ class ImbalHasilFragment : Fragment() {
             }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initial()
-    }
-
-    private fun initial() {
+    private fun initial(binding: FragmentImbalHasilBinding) {
+        initTabFragment(binding)
         Menus.setDataMenuTop(mutableListData)
         Menus.setDataMenu1(mutableListData)
         Menus.setDataMenu2(mutableListData)
@@ -95,13 +92,28 @@ class ImbalHasilFragment : Fragment() {
         Menus.setDataMenuBottom(mutableListData)
 
         adapterListCustom = AdapterListCustom(mutableListData)
-        rvListData.apply {
+        binding.rvListData.apply {
             adapter = adapterListCustom
             layoutManager = LinearLayoutManager(requireContext())
             hasFixedSize()
         }
 
         setDataLineChart2()
+    }
+
+    private fun initTabFragment(binding: FragmentImbalHasilBinding) {
+        val mutableListString: MutableList<String> = arrayListOf()
+        mutableListString.addAll(listOf("Y1", "Y3", "5Y", "10Y", "12X", "1M", "2M", "10M"))
+        val adapterViewPagerImbal = AdapterViewPagerImbal(mutableListString)
+
+        binding.apply {
+            rvFragmentImbal.apply {
+                adapter = adapterViewPagerImbal
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                hasFixedSize()
+            }
+        }
     }
 
 

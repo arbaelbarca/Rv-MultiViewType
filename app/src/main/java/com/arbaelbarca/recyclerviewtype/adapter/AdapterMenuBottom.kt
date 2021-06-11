@@ -1,31 +1,35 @@
-package com.arbaelbarca.recyclerviewtype.Adapter
+package com.arbaelbarca.recyclerviewtype.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arbaelbarca.recyclerviewtype.R
+import com.arbaelbarca.recyclerviewtype.databinding.LayoutItemListmenuBinding
+import com.arbaelbarca.recyclerviewtype.databinding.LayoutItemMenuBinding
 import com.arbaelbarca.recyclerviewtype.datasource.local.DataMenu
 import kotlinx.android.synthetic.main.layout_item_listmenu.view.*
 
 class AdapterMenuBottom(val dataMenuList: MutableList<DataMenu>) :
     RecyclerView.Adapter<AdapterMenuBottom.MyHolderDua>() {
-    class MyHolderDua(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyHolderDua(val binding: LayoutItemListmenuBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(dataMenu: DataMenu) {
             itemView.apply {
-                tvTitleMenuList.setBackgroundResource(dataMenu.drawable)
-                tvTitleMenuList.text = dataMenu.text
+                binding.apply {
+                    tvTitleMenuList.setBackgroundResource(dataMenu.drawable)
+                    tvTitleMenuList.text = dataMenu.text
+                }
+
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolderDua {
-        return MyHolderDua(
-            LayoutInflater.from(parent.context)
-                .inflate(
-                    R.layout.layout_item_listmenu, parent, false
-                )
+        val binding = LayoutItemListmenuBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent, false
         )
+
+        return MyHolderDua(binding)
     }
 
     override fun getItemCount(): Int {
